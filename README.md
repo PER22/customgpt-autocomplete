@@ -11,6 +11,6 @@ At first I built a standard trie, but the resulting response time was poor, as t
 
 I modified the standard trie by giving each node a sorted array of size k (default is 4, as mentioned in the assignment sheet), and populating these arrays recusively with the highest frequency query strings in any child nodes. As a result, the suggestion part of the logic is very fast, at the cost of a more memory-intensive trie. 
 
-I will have to learn how to time functions in python, and then I will add that to the code, and put some examples of queries, responses, and times, as well as measuring the building time for the trie.
+I will have to learn how to time functions in python, and then I will add that to the code, and put some examples of queries, responses, and times, as well as measuring the building time for the trie. This will be my next commit.
 
-I had some difficulties along the way: I failed to notice that although the queries have associated frequencies, they are not unique. As a result, I was getting responses that didn't match the data. However, upon finding this, it all clicked together nicely.
+I had some difficulties along the way: I failed to notice that although the queries have associated frequencies, they are not unique. As a result, I was getting responses that didn't match the data. However, upon finding this, it all clicked together nicely. In addition, the longest query (or at least the one that caused the problem) was over 1000 characters long. I used `sys.setrecursionlimit(1500)` to get around this problem.
