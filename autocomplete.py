@@ -1,5 +1,6 @@
 import sys
 from flask import Flask, request
+import time  
 
 app = Flask(__name__)
 
@@ -20,7 +21,6 @@ class TrieNode:
         self.is_end_of_word = False
         self.frequency = 0
         self.most_frequent_suffixes = SortedFixedSizeArray()
-
 
 class Trie:
     def __init__(self):
@@ -58,22 +58,32 @@ class Trie:
 trie = Trie()
 
 print('loading data...')
+start_time = time.time()  
 
 with open('medical-questions', 'r') as file:
   for line in file:
     query, frequency = (lambda parts: (parts[0], int(parts[1])))(line.strip().split('\t'))
     trie.insert(query=query, frequency=frequency)
-    
-print("Data loaded successfully, now prioritizing")
 
+end_time = time.time()  
+print(f"Data loaded and inserted in {end_time - start_time} seconds")
+
+print("Now prioritizing")
+start_time = time.time()  
 trie.prioritize()
+end_time = time.time() 
+print(f"Trie is prioritized in {end_time - start_time} seconds")
 
 print('Trie is prioritized, ready for queries')
 
 @app.route('/s')
 def autocomplete():
+    start_time = time.time() 
     query = request.args.get('q', '')
-    return trie.suggest(query)
+    suggestions = trie.suggest(query)
+    end_time = time.time()  
+    print(f"Suggestion generated in {end_time - start_time} seconds")
+    return {'suggestions': suggestions}
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=False)
